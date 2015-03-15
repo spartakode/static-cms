@@ -1,0 +1,41 @@
+{% extends common.html %}
+{% block stylesheetLink %}static/stylesheets/style.css{% endblock %}
+{% block body %}
+<article>
+    {% for post in posts %}
+    <div class="post">
+        <h1>
+            {% if linkBlog %}
+            <a href="{{ post.postLink }}" target="_blank">
+                {{ postTitle }} &#8594;
+            {% else %}
+            <a href="posts/{{ post.postUrl }}">
+                {{ postTitle }}
+            {% endif %}
+            </a>
+        </h1>
+        {{ post.renderedPostBody }}
+        {% if linkBlog %}
+        <p><em>Click on the title to visit the page</em></p>
+        {% endif %}
+        <p class="post-time">
+        Posted on
+        <a href="posts/{{ post.postUrl }}">
+            {{ post.formattedPostDate }} -
+        </a>
+        <a href="posts/{{ post.postUrl }}#disqus_thread">
+        </a>
+        </p>
+    </div>
+    {% endfor %}
+</article>
+<script type="text/javascript">
+var disqus_shortname = '{{ disqusShortname }}';
+(function () {
+var s = document.createElement('script'); s.async = true;
+s.type = 'text/javascript';
+s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+{% endblock %}
