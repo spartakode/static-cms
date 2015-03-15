@@ -7,6 +7,9 @@ from ..posts.Post import Post
 class TestBasicHtmlGeneration(unittest.TestCase):
     def setUp(self):
         self.testPost = Post("A Sample Blog Post", "<p>A sample first paragraph</p>\n<p>A sample ending paragraph</p>", date(2015, 3, 3), "a-sample-post")
+    def testConfigurationsRetrieveCorrectly(self):
+        print(HtmlGenerator.getConfigurations())
+        self.assertIsNotNone(HtmlGenerator.getConfigurations())
     def testPostPageHtmlGenerated(self):
         self.maxDiff = None
         samplePostFile = open('./src/core/tests/testdata/posts/posthtmlsample.html', 'r')
