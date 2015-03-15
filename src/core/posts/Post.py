@@ -9,3 +9,4 @@ class Post:
             self.isLinkBlog = False
         else:
             self.isLinkBlog = True
+        self.formattedPostDate = self.postDate.strftime("%b %D %Y")

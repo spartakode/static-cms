@@ -1,23 +1,41 @@
 import configparser
 from jinja2 import Environment, FileSystemLoader
 
+from ..posts import PostCRUD
 def generateHtmlForPostPage(post):
     env = Environment(loader=FileSystemLoader('./src/templates/'))
     postTemplate = env.get_template('post-page.html')
     title = post.postTitle
     formattedPostDate = post.postDate.strftime('%B %d %Y')
-    configurations = getConfigurations()
+    postConfigurations = getConfigurations()['POSTCONFIGURATIONS']
     return postTemplate.render(post=post,
             title=title,
             renderedPostBody=post.postBody,
             formattedPostDate = formattedPostDate,
-            authorLink = configurations['authorLink'],
-            feedlyButtonInformation = configurations['feedlyButtonInformation'],
-            googleAnalyticsKey = configurations['googleAnalyticsKey'],
-            googleAnalyticsDomain = configurations['googleAnalyticsDomain'],
-            disqusShortName = configurations['disqusShortName'])
+            authorLink = postConfigurations['authorLink'],
+            feedlyButtonInformation = postConfigurations['feedlyButtonInformation'],
+            googleAnalyticsKey = postConfigurations['googleAnalyticsKey'],
+            googleAnalyticsDomain = postConfigurations['googleAnalyticsDomain'],
+            disqusShortName = postConfigurations['disqusShortName'])
 
+def generateHtmlForMainPage(postDataStrategy):
+    env = Environment(loader=FileSystemLoader('./src/templates/'))
+    mainPageTemplate = env.get_template('main-page.html')
+    title = "Welcome to Adnan's Blog"
+    configurations = getConfigurations()
+    postConfigurations = configurations['POSTCONFIGURATIONS']
+    mainPageConfigurations = configurations['MAINPAGE']
+    mainPagePosts = PostCRUD.getMainPagePosts(int(mainPageConfigurations['numberOfPosts']), postDataStrategy)
+    for post in mainPagePosts:
+        post.renderedPostBody = post.postBody
+    return mainPageTemplate.render(title=title,
+            posts = mainPagePosts,
+            feedlyButtonInformation = postConfigurations['feedlyButtonInformation'],
+            googleAnalyticsKey = postConfigurations['googleAnalyticsKey'],
+            googleAnalyticsDomain = postConfigurations['googleAnalyticsDomain'],
+            disqusShortName = postConfigurations['disqusShortName'])
+    
 def getConfigurations():
     config = configparser.ConfigParser()
     config.read("src/config.ini")
-    return config['POSTCONFIGURATIONS']
+    return config

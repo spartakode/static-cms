@@ -1,4 +1,4 @@
-{% extends common.html %}
+{% extends "common.html" %}
 {% block stylesheetLink %}static/stylesheets/style.css{% endblock %}
 {% block body %}
 <article>
@@ -10,18 +10,18 @@
                 {{ postTitle }} &#8594;
             {% else %}
             <a href="posts/{{ post.postUrl }}">
-                {{ postTitle }}
+                {{ post.postTitle }}
             {% endif %}
             </a>
         </h1>
-        {{ renderedPostBody }}
+        {{ post.renderedPostBody }}
         {% if post.isLinkBlog %}
         <p><em>Click on the title to visit the page</em></p>
         {% endif %}
         <p class="post-time">
         Posted on
         <a href="posts/{{ post.postUrl }}">
-            {{ formattedPostDate }} -
+            {{ post.formattedPostDate }} -
         </a>
         <a href="posts/{{ post.postUrl }}#disqus_thread">
         </a>
