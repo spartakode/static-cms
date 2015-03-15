@@ -5,7 +5,7 @@
     {% for post in posts %}
     <div class="post">
         <h1>
-            {% if linkBlog %}
+            {% if post.isLinkBlog %}
             <a href="{{ post.postLink }}" target="_blank">
                 {{ postTitle }} &#8594;
             {% else %}
@@ -14,14 +14,14 @@
             {% endif %}
             </a>
         </h1>
-        {{ post.renderedPostBody }}
-        {% if linkBlog %}
+        {{ renderedPostBody }}
+        {% if post.isLinkBlog %}
         <p><em>Click on the title to visit the page</em></p>
         {% endif %}
         <p class="post-time">
         Posted on
         <a href="posts/{{ post.postUrl }}">
-            {{ post.formattedPostDate }} -
+            {{ formattedPostDate }} -
         </a>
         <a href="posts/{{ post.postUrl }}#disqus_thread">
         </a>
