@@ -22,7 +22,7 @@ class TestUserDataStrategy(unittest.TestCase):
         conn.close()
 
     def testUserSaves(self):
-        UserAuthentication.saveUser(User("test", "test@example.com"), "pass1234", UserDataStrategy)
+        self.assertTrue(UserAuthentication.saveUser(User("test", "test@example.com"), "pass1234", UserDataStrategy))
         self.assertTrue(UserRetrieval.doesAUserExist(UserDataStrategy))
     def testUserAutheticationWorks(self):
         UserAuthentication.saveUser(User("test", "test@example.com"), "pass1234", UserDataStrategy)

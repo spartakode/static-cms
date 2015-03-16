@@ -1,7 +1,7 @@
 from flask import session,url_for,request,redirect,render_template
 from . import application
 
-from .controllers import *
+from .controllers import RegisterController, LoginController
 from .core.user import UserRetrieval, UserAuthentication
 from .data.sqlite import UserDataStrategy
 
@@ -11,7 +11,7 @@ def index():
     if 'username' not in session:
         return redirect(url_for("login"))
     else:
-        return render_template('createpost.html')
+        return redirect(url_for("createpost"))
 
 @application.route(BASEPATH+"register/", methods=['GET', 'POST'])
 def register():
@@ -22,12 +22,32 @@ def register():
             return render_template("register.html")
         else:
             RegisterController.registerUser(request.form)
+            return redirect(url_for("login"))
 
 @application.route(BASEPATH+"login/", methods=['GET', 'POST'])
 def login():
     if not UserRetrieval.doesAUserExist(UserDataStrategy):
         return redirect(url_for("register"))
     if 'username' in session:
-        return redirect(url_for(index))
+        return redirect(url_for("index"))
     else:
-        return render_template("login.html")
+        if request.method == "GET":
+            return render_template("login.html")
+        else:
+            loginResult = LoginController.loginUser(request.form)
+            if loginResult:
+                session['username'] = request.form['username']
+                return redirect(url_for("index"))
+            else:
+                return redirect(url_for("login"))
+
+@application.route(BASEPATH+"createpost", methods=['GET', 'POST'])
+def createpost():
+    if 'username' not in session:
+        return redirect(url_for("login"))
+    else:
+        if request.method == "GET":
+            return render_template('createpost.html')
+        else:
+            PostController.createPost(request.form)
+            return render_template('createpost.html')

@@ -17,6 +17,7 @@ def saveUser(userToSave, password):
             (userToSave.username, userToSave.email, password))
     conn.commit()
     conn.close()
+    return True
 
 def getUserPasswordByUsername(username):
     conn = sqlite3.connect("src/data/sqlite/staticcms.db")

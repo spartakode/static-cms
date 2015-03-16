@@ -61,3 +61,4 @@ target/
 
 #static-cms
 src/config.ini
+src/data/sqlite/staticcms.db
