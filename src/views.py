@@ -1,7 +1,7 @@
 from flask import session,url_for,request,redirect,render_template
 from . import application
 
-from .controllers import RegisterController, LoginController
+from .controllers import RegisterController, LoginController, PostController
 from .core.user import UserRetrieval, UserAuthentication
 from .data.sqlite import UserDataStrategy
 
@@ -49,5 +49,5 @@ def createpost():
         if request.method == "GET":
             return render_template('createpost.html')
         else:
-            PostController.createPost(request.form)
+            PostController.savePost(request.form)
             return render_template('createpost.html')
