@@ -24,7 +24,7 @@ def getMainPagePosts(postCount):
     conn = sqlite3.connect("src/data/sqlite/staticcms.db")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
-    cur.execute("SELECT * FROM posts LIMIT %d"%(postCount))
+    cur.execute("SELECT * FROM posts ORDER BY ROWID DESC LIMIT %d"%(postCount))
     results = cur.fetchall()
     postsToReturn = []
     for result in results:
