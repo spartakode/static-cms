@@ -7,9 +7,9 @@
         <h1>
             {% if post.isLinkBlog %}
             <a href="{{ post.postLink }}" target="_blank">
-                {{ postTitle }} &#8594;
+                {{ post.postTitle }} &#8594;
             {% else %}
-            <a href="posts/{{ post.postUrl }}">
+            <a href="posts/{{ post.postUrl }}.html">
                 {{ post.postTitle }}
             {% endif %}
             </a>
@@ -20,10 +20,10 @@
         {% endif %}
         <p class="post-time">
         Posted on
-        <a href="posts/{{ post.postUrl }}">
+        <a href="posts/{{ post.postUrl }}.html">
             {{ post.formattedPostDate }} -
         </a>
-        <a href="posts/{{ post.postUrl }}#disqus_thread">
+        <a href="posts/{{ post.postUrl }}.html#disqus_thread">
         </a>
         </p>
     </div>
