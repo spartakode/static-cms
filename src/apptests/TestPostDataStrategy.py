@@ -3,7 +3,7 @@ import sqlite3
 from datetime import date
 
 from ..core.posts.Post import Post
-from ..core.posts import PostCRUD
+from ..core.posts import PostCRUD, PostRetrieval
 from ..data.sqlite import PostDataStrategy
 
 class TestPosDataStrategy(unittest.TestCase):
@@ -29,7 +29,7 @@ class TestPosDataStrategy(unittest.TestCase):
 
     def testMainPagePostsRetrieveCorrectly(self):
         PostCRUD.savePost(self.postObjecToTest, PostDataStrategy)
-        posts = PostCRUD.getMainPagePosts(10, PostDataStrategy)
+        posts = PostRetrieval.getMainPagePosts(10, PostDataStrategy)
         self.assertEqual(len(posts), 1)
 
 if __name__ == "__main__":

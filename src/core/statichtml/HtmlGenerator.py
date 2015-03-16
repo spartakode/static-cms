@@ -1,7 +1,7 @@
 import configparser
 from jinja2 import Environment, FileSystemLoader
 
-from ..posts import PostCRUD
+from ..posts import PostRetrieval
 def generateHtmlForPostPage(post):
     env = Environment(loader=FileSystemLoader('./src/core/templates/'))
     postTemplate = env.get_template('post-page.html')
@@ -25,7 +25,7 @@ def generateHtmlForMainPage(postDataStrategy):
     configurations = getConfigurations()
     postConfigurations = configurations['POSTCONFIGURATIONS']
     mainPageConfigurations = configurations['MAINPAGE']
-    mainPagePosts = PostCRUD.getMainPagePosts(int(mainPageConfigurations['numberOfPosts']), postDataStrategy)
+    mainPagePosts = PostRetrieval.getMainPagePosts(int(mainPageConfigurations['numberOfPosts']), postDataStrategy)
     for post in mainPagePosts:
         post.renderedPostBody = post.postBody
     return mainPageTemplate.render(title=title,

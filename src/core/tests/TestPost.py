@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, Mock
 from datetime import date
 
 from ..posts.Post import Post
-from ..posts import PostCRUD
+from ..posts import PostCRUD, PostRetrieval
 
 class TestPostObject(unittest.TestCase):
     def testPostObjectCreatedCorrectly(self):
@@ -33,7 +33,7 @@ class TestPostCRUD(unittest.TestCase):
         self.assertTrue(PostCRUD.savePost(self.postObjecToTest, self.mockProductDataStrategy))
 
     def testPostsRetrieveCorrectly(self):
-        self.assertEqual(PostCRUD.getMainPagePosts(20, self.mockProductDataStrategy), self.postObjects)
+        self.assertEqual(PostRetrieval.getMainPagePosts(20, self.mockProductDataStrategy), self.postObjects)
 
 
 if __name__ == "__main__":
