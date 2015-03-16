@@ -3,7 +3,7 @@ from jinja2 import Environment, FileSystemLoader
 
 from ..posts import PostCRUD
 def generateHtmlForPostPage(post):
-    env = Environment(loader=FileSystemLoader('./src/templates/'))
+    env = Environment(loader=FileSystemLoader('./src/core/templates/'))
     postTemplate = env.get_template('post-page.html')
     title = post.postTitle
     formattedPostDate = post.postDate.strftime('%B %d %Y')
@@ -19,7 +19,7 @@ def generateHtmlForPostPage(post):
             disqusShortName = postConfigurations['disqusShortName'])
 
 def generateHtmlForMainPage(postDataStrategy):
-    env = Environment(loader=FileSystemLoader('./src/templates/'))
+    env = Environment(loader=FileSystemLoader('./src/core/templates/'))
     mainPageTemplate = env.get_template('main-page.html')
     title = "Welcome to Adnan's Blog"
     configurations = getConfigurations()
