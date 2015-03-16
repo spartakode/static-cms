@@ -12,7 +12,7 @@ def matchPassWord(password, hashedPassword):
 
 def saveUser(userToSave, password, dataStrategy):
     hashedPassword = getHashedPassword(bytes(password, 'utf-8'))
-    return dataStrategy.saveUser(userToSave, password)
+    return dataStrategy.saveUser(userToSave, hashedPassword)
 
 def autheticateUser(username, password, dataStrategy):
     userPassword = dataStrategy.getUserPasswordByUsername(username)
