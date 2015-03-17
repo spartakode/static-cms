@@ -7,12 +7,13 @@ def savePost(postToSave, postDataStrategy):
         mainPageHtml = HtmlGenerator.generateHtmlForMainPage(postDataStrategy)
         configurations = HtmlGenerator.getConfigurations()
         siteDirectory = configurations['SITEADMIN']['fileLocation']
-        newPostFile = open(siteDirectory + '/posts/%s.html'%(postToSave.postUrl), 'w')
-        mainPageFile = open(siteDirectory + '/index.html', 'w')
-        newPostFile.write(postPageHtml)
+        newPostFile = open(siteDirectory + '/posts/%s.html'%(postToSave.postUrl), 'wb')
+        mainPageFile = open(siteDirectory + '/index.html', 'wb')
+        newPostFile.write(postPageHtml.encode('utf-8'))
         newPostFile.close()
-        mainPageFile.write(mainPageHtml)
+        mainPageFile.write(mainPageHtml.encode('utf-8'))
         mainPageFile.close()
         return True
+
     else:
         return False
