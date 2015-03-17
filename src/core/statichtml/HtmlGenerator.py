@@ -11,7 +11,6 @@ def generateHtmlForPostPage(post):
     return postTemplate.render(post=post,
             title=title,
             renderedPostBody=post.postBody,
-            formattedPostDate = formattedPostDate,
             authorLink = postConfigurations['authorLink'],
             feedlyButtonInformation = postConfigurations['feedlyButtonInformation'],
             googleAnalyticsKey = postConfigurations['googleAnalyticsKey'],

@@ -17,7 +17,7 @@
             {% if post.isLinkBlog %}
             <p><em>Click on the title to visit the page</em></p>
             {% endif %}
-            <p class="post-time">Posted on {{ formattedPostDate }} by <a href="{{ authorLink }}">Adnan Issadeen</a></p>
+            <p class="post-time">Posted on {{ post.formattedPostDate }} by <a href="{{ authorLink }}">Adnan Issadeen</a></p>
             <div id="disqus_thread" style="margin-top:30px;"></div>
             <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
