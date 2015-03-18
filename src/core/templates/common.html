@@ -21,6 +21,7 @@ ga('send', 'pageview');
 <body>
 <nav>
     <ul>
+        {% block otherNavLinks %}{% endblock %}
         <li><a href="../about.html">About</a></li>
         <li><a href="../projects.html">Projects</a></li>
         {% if feedlyButtonInformation %}<li><a href='{{ feedlyButtonInformation }}' target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='follow us in feedly' width='71' height='28'></a></li>
