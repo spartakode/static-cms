@@ -1,7 +1,7 @@
 from flask import session,url_for,request,redirect,render_template
 from . import application
 
-from .controllers import RegisterController, LoginController, PostController
+from .controllers import RegisterController, LoginController, PostController, ViewPostController
 from .core.user import UserRetrieval, UserAuthentication
 from .data.sqlite import UserDataStrategy
 
@@ -57,3 +57,10 @@ def createpost():
         else:
             PostController.savePost(request.form)
             return redirect(url_for('admin'))
+@application.route(BASEPATH + "viewposts/", methods=['GET'])
+def viewposts():
+    if 'username' not in session:
+        return redirect(url_for("login"))
+    else:
+        allPosts = ViewPostController.getAllPosts()
+        return render_template('viewposts.html', posts = allPosts)
