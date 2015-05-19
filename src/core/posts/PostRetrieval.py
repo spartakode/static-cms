@@ -10,3 +10,6 @@ def getSinglePostInMarkDown(postUrl, postDataStrategy):
     postInHTML = getSinglePost(postUrl, postDataStrategy)
     postInMarkdown = html2text.html2text(postInHTML.postBody)
     return postInMarkdown
+
+def getPosts(postDataStrategy):
+    return postDataStrategy.getPosts()

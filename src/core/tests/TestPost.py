@@ -21,28 +21,31 @@ class TestPostCRUD(unittest.TestCase):
         self.postObjecToTest = Post("A sample post", """<p>The post body</p>\n<img src="someplace" alt="an image">\n<p>The ending paragraph</p>""",
                 date(2015,3,1), "a-sample-post")
         self.postObjects = []
-        for i in range(0,10):
+        for i in range(0,30):
             self.postObjects.append(Post("A sample post", """<p>The post body</p>\n[image 1 center]\n<p><p>The ending paragraph</p>""",
                 date(2015,3,1), "a-sample-post%d"%i))
-        self.mockProductDataStrategy = Mock()
+        self.mockPostDataStrategy = Mock()
         mockProductDataStrategyAttrs = {"savePost.return_value": True,
-                "getMainPagePosts.return_value": self.postObjects,
+                "getMainPagePosts.return_value": self.postObjects[0:20],
+                "getPosts.return_value": self.postObjects,
                 "getSinglePost.return_value": self.postObjecToTest,
                 }
-        self.mockProductDataStrategy.configure_mock(**mockProductDataStrategyAttrs)
+        self.mockPostDataStrategy.configure_mock(**mockProductDataStrategyAttrs)
 
     def testPostSavesCorrectly(self):
-        self.assertTrue(PostCRUD.savePost(self.postObjecToTest, self.mockProductDataStrategy))
+        self.assertTrue(PostCRUD.savePost(self.postObjecToTest, self.mockPostDataStrategy))
 
     def testMainPagePostsRetrieveCorrectly(self):
-        self.assertEqual(PostRetrieval.getMainPagePosts(20, self.mockProductDataStrategy), self.postObjects)
+        self.assertEqual(PostRetrieval.getMainPagePosts(20, self.mockPostDataStrategy), self.postObjects[0:20])
 
+    def testAllPostsRetrieveCorrectly(self):
+        self.assertEqual(PostRetrieval.getPosts(self.mockPostDataStrategy), self.postObjects)
     def testSinglePostRetrievesCorrectly(self):
-        self.assertEqual(PostRetrieval.getSinglePost('a-sample-post', self.mockProductDataStrategy), self.postObjecToTest)
+        self.assertEqual(PostRetrieval.getSinglePost('a-sample-post', self.mockPostDataStrategy), self.postObjecToTest)
 
     def testSinglePostRetrievesMarkdownCorrectly(self):
         markDownToCompareTo = 'The post body\n\n![an image](someplace)\n\nThe ending paragraph\n\n'
-        self.assertEqual(PostRetrieval.getSinglePostInMarkDown('a-sample-post', self.mockProductDataStrategy), markDownToCompareTo)
+        self.assertEqual(PostRetrieval.getSinglePostInMarkDown('a-sample-post', self.mockPostDataStrategy), markDownToCompareTo)
 
 if __name__ == "__main__":
     unittest.main()
