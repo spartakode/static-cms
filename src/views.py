@@ -11,7 +11,7 @@ def index():
     if 'username' not in session:
         return redirect(url_for("login"))
     else:
-        return redirect(url_for("createpost"))
+        return redirect(url_for("admin"))
 
 @application.route(BASEPATH+"register/", methods=['GET', 'POST'])
 def register():
@@ -41,7 +41,13 @@ def login():
             else:
                 return redirect(url_for("login"))
 
-@application.route(BASEPATH+"createpost", methods=['GET', 'POST'])
+@application.route(BASEPATH+"admin/", methods=['GET', 'POST'])
+def admin():
+    if 'username' not in session:
+        return redirect(url_for("login"))
+    return render_template('admin.html')
+
+@application.route(BASEPATH+"createpost/", methods=['GET', 'POST'])
 def createpost():
     if 'username' not in session:
         return redirect(url_for("login"))
