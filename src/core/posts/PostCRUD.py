@@ -1,4 +1,5 @@
 from ..statichtml import HtmlGenerator
+import os
 
 def savePost(postToSave, postDataStrategy):
     postSaveResult = postDataStrategy.savePost(postToSave)
@@ -7,6 +8,9 @@ def savePost(postToSave, postDataStrategy):
         mainPageHtml = HtmlGenerator.generateHtmlForMainPage(postDataStrategy)
         configurations = HtmlGenerator.getConfigurations()
         siteDirectory = configurations['SITEADMIN']['fileLocation']
+        if not os.path.exists(siteDirectory):
+            os.mkdir(siteDirectory)
+            os.mkdir(os.path.join(siteDirectory, 'posts'))
         newPostFile = open(siteDirectory + '/posts/%s.html'%(postToSave.postUrl), 'wb')
         mainPageFile = open(siteDirectory + '/index.html', 'wb')
         newPostFile.write(postPageHtml.encode('utf-8'))
