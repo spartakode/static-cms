@@ -36,3 +36,38 @@ def getMainPagePosts(postCount):
             result['postUrl'],
             result['postLink']))
     return postsToReturn
+
+def getSinglePost(postUrl):
+    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM posts WHERE postUrl=:postUrl",{"postUrl":postUrl})
+    result = cur.fetchone()
+    postToReturn = None
+    if result:
+        dateParts = result['postDate'].split('-')
+        postDate = (date(int(dateParts[0]), int(dateParts[1]), int(dateParts[2])))
+        postToReturn = Post(result['postTitle'],
+            result['postBody'],
+            postDate,
+            result['postUrl'],
+            result['postLink'])
+    return postToReturn
+
+def getPosts():
+    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM posts ORDER BY postDate DESC")
+    results = cur.fetchall()
+    postsToReturn = []
+    for result in results:
+        dateParts = result['postDate'].split('-')
+        postDate = (date(int(dateParts[0]), int(dateParts[1]), int(dateParts[2])))
+        postsToReturn.append(Post(result['postTitle'],
+            result['postBody'],
+            postDate,
+            result['postUrl'],
+            result['postLink']))
+    return postsToReturn
+

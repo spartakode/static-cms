@@ -8,8 +8,10 @@ from ..data.sqlite import PostDataStrategy
 
 class TestPosDataStrategy(unittest.TestCase):
     def setUp(self):
-        self.postObjecToTest = Post("A sample post", """<p>The post body</p>\n[image 1 center]\n<p><p>The ending paragraph</p>""",
+        self.postObjecToTestA = Post("A sample post", """<p>The post body</p>\n[image 1 center]\n<p><p>The ending paragraph</p>""",
                 date(2015,3,1), "a-sample-post")
+        self.postObjecToTestB = Post("A sample poste", """<p>The post body</p>\n[image 1 center]\n<p><p>The ending paragraph</p>""",
+                date(2015,3,1), "a-sample-poste")
         conn = sqlite3.connect("src/data/sqlite/staticcms.db")
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
@@ -25,12 +27,26 @@ class TestPosDataStrategy(unittest.TestCase):
         conn.close()
 
     def testPostSavesCorrectly(self):
-        self.assertTrue(PostCRUD.savePost(self.postObjecToTest, PostDataStrategy))
+        self.assertTrue(PostCRUD.savePost(self.postObjecToTestA, PostDataStrategy))
 
     def testMainPagePostsRetrieveCorrectly(self):
-        PostCRUD.savePost(self.postObjecToTest, PostDataStrategy)
+        PostCRUD.savePost(self.postObjecToTestA, PostDataStrategy)
+        PostCRUD.savePost(self.postObjecToTestB, PostDataStrategy)
         posts = PostRetrieval.getMainPagePosts(10, PostDataStrategy)
-        self.assertEqual(len(posts), 1)
+        self.assertEqual(len(posts), 2)
+    
+    def testSinglePostRetrievesCorrectly(self):
+        PostCRUD.savePost(self.postObjecToTestA, PostDataStrategy)
+        PostCRUD.savePost(self.postObjecToTestB, PostDataStrategy)
+        post = PostRetrieval.getSinglePost('a-sample-post', PostDataStrategy)
+        self.assertEqual(post.postTitle, "A sample post")
+        self.assertEqual(post.postUrl, "a-sample-post")
+
+    def testAllPostsRetrieveCorrectly(self):
+        PostCRUD.savePost(self.postObjecToTestA, PostDataStrategy)
+        PostCRUD.savePost(self.postObjecToTestB, PostDataStrategy)
+        allPosts = PostRetrieval.getPosts(PostDataStrategy)
+        self.assertEqual(len(allPosts), 2)
 
 if __name__ == "__main__":
     unittest.main()
