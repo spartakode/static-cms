@@ -56,4 +56,4 @@ def createpost():
             return render_template('createpost.html')
         else:
             PostController.savePost(request.form)
-            return render_template('createpost.html')
+            return redirect(url_for('admin'))

@@ -9,13 +9,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Brand</a>
+            <a class="navbar-brand" href="{{ url_for('admin') }}">Brand</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{{ url_for('createpost')}}">Create Post</a></li>
+                {% if currentUrl != 'createpost' %}
+                    <li><a href="{{ url_for('createpost')}}">Create Post</a></li>
+                {% endif %}
                 <li><a href="{{ url_for('createpost')}}">Edit Post</a></li>
                 <li><a href="{{ url_for('createpost')}}">View Posts</a></li>
                 <li><a href="{{ url_for('createpost')}}">Delete a Post</a></li>

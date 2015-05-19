@@ -4,12 +4,11 @@
 {% block body %}
 {{ nav.navbar(request.url_rule.endpoint) }}
 <div class="row">
-    <div class="col-lg-12">
-        <ul>
-            <li>
-                <a href={{url_for('createpost')}}>Create Post</a>
-            </li>
-        </ul>
+    <div class="col-lg-6 col-md-offset-3" style="text-align:center">
+        <h1>Welcome to the Static CMS</h1>
+        <p>Someday this will be your dashboard. But today, is not that day</p>
+        <img src="https://s-media-cache-ak0.pinimg.com/236x/e3/9e/1c/e39e1ccec8bbd087cad9297fba21e20c.jpg">
+        <p>Click on one of the links on the top bar to get started :)</p>
     </div>
 </div>
 {% endblock %}

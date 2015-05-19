@@ -1,25 +1,39 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<title>Create a post</title>
-</head>
-<body>
-<form method="POST">
-    <label>Post Title</label>
-    <input name="posttitle">
-    <br>
-    <label>Link (if link blog type)</label>
-    <input name="postlink">
-    <br>
-    <label>Post Text (markdown enabled. OMG!)</label>
-    <br>
-    <textarea name="postbody" style="height:400px; min-width:200px; width:700px;">
-    </textarea>
-    <br>
-    <label>Post URL</label>
-    <input name="posturl">
-    <br>
-    <input type="submit" value="Save Post">
-</form>
-</body>
-</html>
+{% extends "common/base.html" %}
+{% import "common/navbar.html" as nav -%}
+{% block title %}Create a new post{% endblock %}
+{% block body %}
+{{ nav.navbar(request.url_rule.endpoint )}}
+<div class="row">
+    <div class="col-lg-9 col-md-offset-1">
+        <h1>Create a New Post</h1>
+        <form method="POST">
+            <div class="row">
+                <div class="col-lg-12 form-group">
+                    <label>Post Title</label>
+                    <input class="form-control" name="posttitle">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 form-group">
+                    <label>Link (if link blog type)</label>
+                    <input class="form-control" name="postlink">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 form-group">
+                    <label>Post Text (markdown enabled. OMG!)</label>
+                    <textarea class="form-control" name="postbody" style="height:400px;">
+                    </textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 form-group">
+                    <label>Post URL</label>
+                    <input class="form-control" name="posturl">
+                </div>
+            </div>
+            <input class="btn btn-primary" type="submit" value="Save Post">
+        </form>
+    </div>
+</div>
+{% endblock %}
