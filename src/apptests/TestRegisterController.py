@@ -2,9 +2,11 @@ import unittest
 import sqlite3
 
 from ..controllers import RegisterController
+from ..data import DataStrategy
 
 class TestUserRegistration(unittest.TestCase):
     def setUp(self):
+        DataStrategy.initializeDataStrategy("sqllite")
         conn = sqlite3.connect("src/data/sqlite/staticcms.db")
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()

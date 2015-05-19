@@ -3,7 +3,7 @@ from datetime import date
 
 from ..core.posts.Post import Post
 from ..core.posts import PostCRUD
-from ..data.sqlite import PostDataStrategy
+from ..data import DataStrategy
 
 def savePost(formData):
     datePosted = date.today()
@@ -13,4 +13,4 @@ def savePost(formData):
             datePosted,
             formData['posturl'],
             formData['postlink'])
-    return PostCRUD.savePost(postToSave, PostDataStrategy)
+    return PostCRUD.savePost(postToSave, DataStrategy.PostDataStrategy)

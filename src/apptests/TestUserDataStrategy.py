@@ -1,12 +1,14 @@
 import unittest
 import sqlite3
 
+from ..data import DataStrategy
 from ..core.user.User import User
 from ..core.user import UserAuthentication, UserRetrieval
 from ..data.sqlite import UserDataStrategy
 
 class TestUserDataStrategy(unittest.TestCase):
     def setUp(self):
+        DataStrategy.initializeDataStrategy("sqllite")
         conn = sqlite3.connect("src/data/sqlite/staticcms.db")
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()

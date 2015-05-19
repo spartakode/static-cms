@@ -4,10 +4,12 @@ from datetime import date
 
 from ..core.posts.Post import Post
 from ..core.posts import PostCRUD, PostRetrieval
+from ..data import DataStrategy
 from ..data.sqlite import PostDataStrategy
 
 class TestPosDataStrategy(unittest.TestCase):
     def setUp(self):
+        DataStrategy.initializeDataStrategy("sqllite")
         self.postObjecToTestA = Post("A sample post", """<p>The post body</p>\n[image 1 center]\n<p><p>The ending paragraph</p>""",
                 date(2015,3,1), "a-sample-post")
         self.postObjecToTestB = Post("A sample poste", """<p>The post body</p>\n[image 1 center]\n<p><p>The ending paragraph</p>""",

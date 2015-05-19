@@ -3,8 +3,10 @@ import argparse
 import os
 import configparser
 import shutil
+from src.data import DataStrategy
 
 if __name__ == "__main__":
+    DataStrategy.initializeDataStrategy("sqllite")
     config = configparser.ConfigParser()
     config.read('src/config.ini')
     siteLocation = config['SITEADMIN']['fileLocation']
