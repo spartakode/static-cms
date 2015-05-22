@@ -7,18 +7,18 @@ from ..posts import PostCRUD, PostRetrieval
 
 class TestPostObject(unittest.TestCase):
     def testPostObjectCreatedCorrectly(self):
-        postObjecToTest = Post("A sample post", """<p>The post body</p>\n[image 1 center]\n<p><p>The ending paragraph</p>""",
+        postObjectToTest = Post("A sample post", """<p>The post body</p>\n[image 1 center]\n<p><p>The ending paragraph</p>""",
                 date(2015,3,1), "a-sample-post")
-        self.assertEqual(postObjecToTest.postTitle, "A sample post")
-        self.assertEqual(postObjecToTest.postBody, """<p>The post body</p>\n[image 1 center]\n<p><p>The ending paragraph</p>""")
-        self.assertEqual(postObjecToTest.postDate, date(2015, 3, 1))
-        self.assertEqual(postObjecToTest.postUrl, "a-sample-post")
-        self.assertEqual(postObjecToTest.postLink, "")
-        self.assertEqual(postObjecToTest.isLinkBlog, False)
+        self.assertEqual(postObjectToTest.postTitle, "A sample post")
+        self.assertEqual(postObjectToTest.postBody, """<p>The post body</p>\n[image 1 center]\n<p><p>The ending paragraph</p>""")
+        self.assertEqual(postObjectToTest.postDate, date(2015, 3, 1))
+        self.assertEqual(postObjectToTest.postUrl, "a-sample-post")
+        self.assertEqual(postObjectToTest.postLink, "")
+        self.assertEqual(postObjectToTest.isLinkBlog, False)
 
 class TestPostCRUD(unittest.TestCase):
     def setUp(self):
-        self.postObjecToTest = Post("A sample post", """<p>The post body</p>\n<img src="someplace" alt="an image">\n<p>The ending paragraph</p>""",
+        self.postObjectToTest = Post("A sample post", """<p>The post body</p>\n<img src="someplace" alt="an image">\n<p>The ending paragraph</p>""",
                 date(2015,3,1), "a-sample-post")
         self.postObjects = []
         for i in range(0,30):
@@ -28,12 +28,13 @@ class TestPostCRUD(unittest.TestCase):
         mockProductDataStrategyAttrs = {"savePost.return_value": True,
                 "getMainPagePosts.return_value": self.postObjects[0:20],
                 "getPosts.return_value": self.postObjects,
-                "getSinglePost.return_value": self.postObjecToTest,
+                "getSinglePost.return_value": self.postObjectToTest,
+                "updatePost.return_value": True,
                 }
         self.mockPostDataStrategy.configure_mock(**mockProductDataStrategyAttrs)
 
     def testPostSavesCorrectly(self):
-        self.assertTrue(PostCRUD.savePost(self.postObjecToTest, self.mockPostDataStrategy))
+        self.assertTrue(PostCRUD.savePost(self.postObjectToTest, self.mockPostDataStrategy))
 
     def testMainPagePostsRetrieveCorrectly(self):
         self.assertEqual(PostRetrieval.getMainPagePosts(20, self.mockPostDataStrategy), self.postObjects[0:20])
@@ -41,11 +42,16 @@ class TestPostCRUD(unittest.TestCase):
     def testAllPostsRetrieveCorrectly(self):
         self.assertEqual(PostRetrieval.getPosts(self.mockPostDataStrategy), self.postObjects)
     def testSinglePostRetrievesCorrectly(self):
-        self.assertEqual(PostRetrieval.getSinglePost('a-sample-post', self.mockPostDataStrategy), self.postObjecToTest)
+        self.assertEqual(PostRetrieval.getSinglePost('a-sample-post', self.mockPostDataStrategy), self.postObjectToTest)
 
     def testSinglePostRetrievesMarkdownCorrectly(self):
         markDownToCompareTo = 'The post body\n\n![an image](someplace)\n\nThe ending paragraph\n\n'
         self.assertEqual(PostRetrieval.getSinglePostInMarkDown('a-sample-post', self.mockPostDataStrategy), markDownToCompareTo)
+
+    def testPostCanBeUpdated(self):
+        self.postObjectToTest.postUrl = "an-edited-post"
+        self.postObjectToTest.postLink = "http://example.com"
+        self.assertTrue(PostCRUD.editPost("a-sample-post", self.postObjectToTest, self.mockPostDataStrategy))
 
 if __name__ == "__main__":
     unittest.main()
