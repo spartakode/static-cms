@@ -7,9 +7,9 @@ def getSinglePost(postUrl, postDataStrategy):
     return postDataStrategy.getSinglePost(postUrl)
 
 def getSinglePostInMarkDown(postUrl, postDataStrategy):
-    postInHTML = getSinglePost(postUrl, postDataStrategy)
-    postInMarkdown = html2text.html2text(postInHTML.postBody)
-    return postInMarkdown
+    postToReturn = getSinglePost(postUrl, postDataStrategy)
+    postToReturn.postBody = html2text.html2text(postToReturn.postBody)
+    return postToReturn
 
 def getPosts(postDataStrategy):
     return postDataStrategy.getPosts()

@@ -46,7 +46,7 @@ class TestPostCRUD(unittest.TestCase):
 
     def testSinglePostRetrievesMarkdownCorrectly(self):
         markDownToCompareTo = 'The post body\n\n![an image](someplace)\n\nThe ending paragraph\n\n'
-        self.assertEqual(PostRetrieval.getSinglePostInMarkDown('a-sample-post', self.mockPostDataStrategy), markDownToCompareTo)
+        self.assertEqual(PostRetrieval.getSinglePostInMarkDown('a-sample-post', self.mockPostDataStrategy).postBody, markDownToCompareTo)
 
     def testPostCanBeUpdated(self):
         self.postObjectToTest.postUrl = "an-edited-post"
