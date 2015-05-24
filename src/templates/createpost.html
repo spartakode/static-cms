@@ -1,38 +1,38 @@
 {% extends "common/base.html" %}
 {% import "common/navbar.html" as nav -%}
-{% block title %}Create a new post{% endblock %}
+{% block title %}{{action}}{% endblock %}
 {% block body %}
 {{ nav.navbar(request.url_rule.endpoint )}}
 <div class="row">
     <div class="col-lg-9 col-md-offset-1">
-        <h1>Create a New Post</h1>
-        <form method="POST">
+        <h1>{{action}}</h1>
+        <form method="POST" action="{{formAction}}">
             <div class="row">
                 <div class="col-lg-12 form-group">
                     <label>Post Title</label>
-                    <input class="form-control" name="posttitle">
+                    <input class="form-control" name="posttitle" value="{{postTitle}}"}>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12 form-group">
                     <label>Link (if link blog type)</label>
-                    <input class="form-control" name="postlink">
+                    <input class="form-control" name="postlink" value="{{postLink}}">
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12 form-group">
                     <label>Post Text (markdown enabled. OMG!)</label>
-                    <textarea class="form-control" name="postbody" style="height:400px;">
-                    </textarea>
+                    <textarea class="form-control" name="postbody" style="height:400px;">{{postBody}}</textarea>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12 form-group">
                     <label>Post URL</label>
-                    <input class="form-control" name="posturl">
+                    <input class="form-control" name="posturl" value="{{postUrl}}">
                 </div>
             </div>
-            <input class="btn btn-primary" type="submit" value="Save Post">
+            <input type="hidden" name="oldposturl" value="{{postUrl}}">
+            <input class="btn btn-primary" type="submit" value="{{saveAction}}">
         </form>
     </div>
 </div>

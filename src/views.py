@@ -1,7 +1,7 @@
 from flask import session,url_for,request,redirect,render_template
 from . import application
 
-from .controllers import RegisterController, LoginController, PostController, ViewPostController
+from .controllers import RegisterController, LoginController, PostController, ViewPostController, EditPostController
 from .core.user import UserRetrieval, UserAuthentication
 from .data.sqlite import UserDataStrategy
 
@@ -53,7 +53,9 @@ def createpost():
         return redirect(url_for("login"))
     else:
         if request.method == "GET":
-            return render_template('createpost.html')
+            return render_template('createpost.html',action="Create Post",
+                    saveAction = "Save Post",
+                    formAction = url_for('createpost'))
         else:
             PostController.savePost(request.form)
             return redirect(url_for('admin'))
@@ -64,3 +66,26 @@ def viewposts():
     else:
         allPosts = ViewPostController.getAllPosts()
         return render_template('viewposts.html', posts = allPosts)
+@application.route(BASEPATH + "editpost/", methods=['POST'])
+def editpost():
+    if 'username' not in session:
+        return redirect(url_for("login"))
+    else:
+        postUrl = request.form['posturl']
+        print("post url is: " + postUrl)
+        post = EditPostController.getPostInMarkdown(postUrl)
+        return render_template('createpost.html', postTitle = post.postTitle,
+                postLink = post.postLink,
+                postBody = post.postBody,
+                postUrl = post.postUrl,
+                action = "Edit Post",
+                saveAction = "Update Post",
+                formAction = url_for('saveUpdatedPost')
+                )
+@application.route(BASEPATH + "editpost/update", methods=['POST'])
+def saveUpdatedPost():
+    if 'username' not in session:
+        return redirect(url_for("login"))
+    else:
+        EditPostController.updatePost(request.form)
+        return redirect(url_for('viewposts'))

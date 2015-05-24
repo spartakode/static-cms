@@ -71,3 +71,18 @@ def getPosts():
             result['postLink']))
     return postsToReturn
 
+def updatePost(oldPostUrl, updatedPost):
+    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM posts WHERE postUrl=:postUrl", {"postUrl": oldPostUrl})
+    oldPost = cur.fetchone()
+    if oldPost:
+        cur.execute("UPDATE posts SET postTitle=:postTitle WHERE postUrl=:postUrl",{"postTitle": updatedPost.postTitle, "postUrl": oldPostUrl})
+        cur.execute("UPDATE posts SET postBody=:postBody WHERE postUrl=:postUrl",{"postBody": updatedPost.postBody, "postUrl": oldPostUrl})
+        cur.execute("UPDATE posts SET postLink=:postLink WHERE postUrl=:postUrl",{"postLink": updatedPost.postLink, "postUrl": oldPostUrl})
+        cur.execute("UPDATE posts SET postUrl=:newPostUrl WHERE postUrl=:postUrl",{"newPostUrl": updatedPost.postUrl, "postUrl": oldPostUrl})
+    conn.commit()
+    conn.close()
+    return True
+

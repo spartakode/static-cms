@@ -24,7 +24,7 @@
                     <td>{{post.postUrl}}</td>
                     <td>{{post.postDate}}</td>
                     <td>{{post.postLink}}</td>
-                    <td><form method="POST" action=""><button class="btn btn-default"><span class="glyphicon glyphicon-pencil" style="margin-right:5px;"> </span> Edit Post</button></form></td>
+                    <td><form method="POST" action="{{url_for('editpost')}}"><button class="btn btn-default"><input type="hidden" name="posturl" value={{post.postUrl}}><span class="glyphicon glyphicon-pencil" style="margin-right:5px;"> </span> Edit Post</button></form></td>
                     <td><form method="POST" action=""><button class="btn btn-default"><span class="glyphicon glyphicon-remove" style="margin-right:5px;"> </span> Delete Post</button></form></td>
                 </tr>
                 {% endfor %}

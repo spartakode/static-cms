@@ -50,5 +50,17 @@ class TestPosDataStrategy(unittest.TestCase):
         allPosts = PostRetrieval.getPosts(PostDataStrategy)
         self.assertEqual(len(allPosts), 2)
 
+    def testPostUpdatesCorrectly(self):
+        PostCRUD.savePost(self.postObjecToTestA, PostDataStrategy)
+        self.postObjecToTestA.postBody = "#A new World"
+        self.postObjecToTestA.postTitle = "A new title"
+        self.postObjecToTestA.postUrl = "a-new-url"
+        self.postObjecToTestA.postLink = "thing-can-change"
+        PostCRUD.editPost("a-sample-post", self.postObjecToTestA, PostDataStrategy)
+        updateTestResult = PostRetrieval.getSinglePostInMarkDown("a-new-url", PostDataStrategy)
+        self.assertEqual(updateTestResult.postTitle, "A new title")
+        self.assertEqual(updateTestResult.postUrl, "a-new-url")
+        self.assertEqual(updateTestResult.postLink, "thing-can-change")
+        self.assertEqual(updateTestResult.postBody, "#A new World\n\n")
 if __name__ == "__main__":
     unittest.main()
