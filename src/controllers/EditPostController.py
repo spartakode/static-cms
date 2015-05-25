@@ -1,4 +1,5 @@
 from ..data import DataStrategy
+import markdown
 from ..core.posts.Post import Post
 from ..core.posts import PostRetrieval
 from ..core.posts import PostCRUD
@@ -8,9 +9,11 @@ def getPostInMarkdown(postUrlToRetrieve):
 
 def updatePost(postForm):
     originalPostUrl = postForm['oldposturl']
+    postBody = markdown.markdown(postForm['postbody'])
+    print(postBody)
     originalPost = PostRetrieval.getSinglePost(originalPostUrl, DataStrategy.PostDataStrategy)
     updatedPost = Post(postForm['posttitle'],
-            postForm['postbody'],
+            postBody,
             originalPost.postDate,
             postForm['posturl'],
             postForm['postlink'])
