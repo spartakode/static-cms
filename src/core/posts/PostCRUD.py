@@ -45,3 +45,14 @@ def editPost(oldPostUrl, updatedPost, postDataStrategy):
     else:
         return False
         
+def deletePost(urlOfPostToDelete, postDataStrategy):
+    postDeleteResult = postDataStrategy.deletePost(urlOfPostToDelete)
+    if postDeleteResult is True:
+        configurations = HtmlGenerator.getConfigurations()
+        siteDirectory = configurations['SITEADMIN']['fileLocation']
+        deleteFilePath = os.path.join(siteDirectory, 'posts', urlOfPostToDelete + '.html')
+        if os.path.exists(deleteFilePath):
+            os.remove(deleteFilePath)
+        return True
+    else:
+        return False

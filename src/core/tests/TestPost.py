@@ -30,6 +30,7 @@ class TestPostCRUD(unittest.TestCase):
                 "getPosts.return_value": self.postObjects,
                 "getSinglePost.return_value": self.postObjectToTest,
                 "updatePost.return_value": True,
+                "deletePost.return_value": True,
                 }
         self.mockPostDataStrategy.configure_mock(**mockProductDataStrategyAttrs)
 
@@ -37,21 +38,29 @@ class TestPostCRUD(unittest.TestCase):
         self.assertTrue(PostCRUD.savePost(self.postObjectToTest, self.mockPostDataStrategy))
 
     def testMainPagePostsRetrieveCorrectly(self):
+        PostCRUD.savePost(self.postObjectToTest, self.mockPostDataStrategy)
         self.assertEqual(PostRetrieval.getMainPagePosts(20, self.mockPostDataStrategy), self.postObjects[0:20])
 
     def testAllPostsRetrieveCorrectly(self):
+        PostCRUD.savePost(self.postObjectToTest, self.mockPostDataStrategy)
         self.assertEqual(PostRetrieval.getPosts(self.mockPostDataStrategy), self.postObjects)
     def testSinglePostRetrievesCorrectly(self):
+        PostCRUD.savePost(self.postObjectToTest, self.mockPostDataStrategy)
         self.assertEqual(PostRetrieval.getSinglePost('a-sample-post', self.mockPostDataStrategy), self.postObjectToTest)
 
     def testSinglePostRetrievesMarkdownCorrectly(self):
+        PostCRUD.savePost(self.postObjectToTest, self.mockPostDataStrategy)
         markDownToCompareTo = 'The post body\n\n![an image](someplace)\n\nThe ending paragraph\n\n'
         self.assertEqual(PostRetrieval.getSinglePostInMarkDown('a-sample-post', self.mockPostDataStrategy).postBody, markDownToCompareTo)
 
     def testPostCanBeUpdated(self):
+        PostCRUD.savePost(self.postObjectToTest, self.mockPostDataStrategy)
         self.postObjectToTest.postUrl = "an-edited-post"
         self.postObjectToTest.postLink = "http://example.com"
         self.assertTrue(PostCRUD.editPost("a-sample-post", self.postObjectToTest, self.mockPostDataStrategy))
 
+    def testPostCanBeDeleted(self):
+        PostCRUD.savePost(self.postObjectToTest, self.mockPostDataStrategy)
+        self.assertTrue(PostCRUD.deletePost('a-sample-post', self.mockPostDataStrategy))
 if __name__ == "__main__":
     unittest.main()
