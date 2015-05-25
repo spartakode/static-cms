@@ -18,21 +18,9 @@
                 {% if currentUrl != 'createpost' %}
                     <li><a href="{{ url_for('createpost')}}">Create Post</a></li>
                 {% endif %}
-                <li><a href="{{ url_for('createpost')}}">Edit Post</a></li>
                 {% if currentUrl != 'viewposts' %}
                     <li><a href="{{ url_for('viewposts')}}">View Posts</a></li>
                 {% endif %}
-                <li><a href="{{ url_for('createpost')}}">Delete a Post</a></li>
-                <!--<li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                    </ul>
-                    </li>-->
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
