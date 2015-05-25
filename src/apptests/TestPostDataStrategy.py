@@ -62,5 +62,11 @@ class TestPosDataStrategy(unittest.TestCase):
         self.assertEqual(updateTestResult.postUrl, "a-new-url")
         self.assertEqual(updateTestResult.postLink, "thing-can-change")
         self.assertEqual(updateTestResult.postBody, "#A new World\n\n")
+
+    def testPostDeletesCorrectly(self):
+        PostCRUD.savePost(self.postObjecToTestA, PostDataStrategy)
+        self.assertEqual(len(PostRetrieval.getMainPagePosts(10, PostDataStrategy)),1)
+        PostCRUD.deletePost("a-sample-post", PostDataStrategy)
+        self.assertEqual(len(PostRetrieval.getMainPagePosts(10, PostDataStrategy)),0)
 if __name__ == "__main__":
     unittest.main()

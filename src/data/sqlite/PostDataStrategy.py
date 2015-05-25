@@ -86,3 +86,11 @@ def updatePost(oldPostUrl, updatedPost):
     conn.close()
     return True
 
+def deletePost(urlOfPostToDelete):
+    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    cur.execute("DELETE FROM posts WHERE postUrl=:postUrl", {"postUrl": urlOfPostToDelete})
+    conn.commit()
+    conn.close()
+    return True
