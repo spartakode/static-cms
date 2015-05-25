@@ -15,3 +15,7 @@ def updatePost(postForm):
             postForm['posturl'],
             postForm['postlink'])
     return PostCRUD.editPost(originalPostUrl, updatedPost, DataStrategy.PostDataStrategy)
+
+def deletePost(deletePostForm):
+    urlOfPostToDelete = deletePostForm['deleteposturl']
+    return PostCRUD.deletePost(urlOfPostToDelete, DataStrategy.PostDataStrategy)

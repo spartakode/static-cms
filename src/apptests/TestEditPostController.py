@@ -17,6 +17,7 @@ class TestEditPostController(unittest.TestCase):
             "updatePost.return_value": True,
             "getMainPagePosts.return_value": [self.singlePostToReturn],
             "savePost.return_value": True,
+            "deletePost.return_value": True,
                 }
         mockPostDataStrategy.configure_mock(**mockPostDataStrategyArgs)
         DataStrategy.PostDataStrategy  = mockPostDataStrategy
@@ -35,5 +36,9 @@ Some text
         testPostInfo = {"postbody":"#A sample post", "posttitle": "A sample title", "posturl": "a-new-post", "postlink": "", "oldposturl": "a-sample-post"}
         self.assertTrue(EditPostController.updatePost(testPostInfo))
 
+    def test_deletePost(self):
+        PostCRUD.savePost(self.singlePostToReturn, DataStrategy.PostDataStrategy)
+        testDeleteInfo = {"deleteposturl": "a-sample-post"}
+        self.assertTrue(EditPostController.deletePost(testDeleteInfo))
 if __name__=="__main__":
     unittest.main()
