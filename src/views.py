@@ -89,3 +89,11 @@ def saveUpdatedPost():
     else:
         EditPostController.updatePost(request.form)
         return redirect(url_for('viewposts'))
+
+@application.route(BASEPATH + "deletepost/", methods=['POST'])
+def deletePost():
+    if 'username' not in session:
+        return redirect(url_for("login"))
+    else:
+        if EditPostController.deletePost(request.form):
+            return redirect(url_for('viewposts'))
