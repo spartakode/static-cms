@@ -4,7 +4,7 @@ import sqlite3
 from ..controllers import PostController
 from ..data import DataStrategy
 
-class TestUserRegistration(unittest.TestCase):
+class TestPostController(unittest.TestCase):
     def setUp(self):
         DataStrategy.initializeDataStrategy("sqllite")
         conn = sqlite3.connect("src/data/sqlite/staticcms.db")

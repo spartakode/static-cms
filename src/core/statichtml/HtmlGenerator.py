@@ -1,9 +1,14 @@
 import configparser
+import os, shutil
 from jinja2 import Environment, FileSystemLoader
 
 from ..posts import PostRetrieval
 def generateHtmlForPostPage(post):
-    env = Environment(loader=FileSystemLoader('./src/core/templates/'))
+    if not os.path.exists(os.path.join('.','templates','custom')):
+        #os.mkdir(os.path.join('.','templates', 'custom'))
+        shutil.copytree(os.path.join('.', 'templates', 'default'), os.path.join('.','templates','custom'))
+
+    env = Environment(loader=FileSystemLoader(os.path.join('.','templates','custom')))
     postTemplate = env.get_template('post-page.html')
     title = post.postTitle
     formattedPostDate = post.postDate.strftime('%B %d %Y')
@@ -18,7 +23,10 @@ def generateHtmlForPostPage(post):
             disqusShortName = postConfigurations['disqusShortName'])
 
 def generateHtmlForMainPage(postDataStrategy):
-    env = Environment(loader=FileSystemLoader('./src/core/templates/'))
+    if not os.path.exists(os.path.join('.','templates','custom')):
+        #os.mkdir(os.path.join('.','templates', 'custom'))
+        shutil.copy(os.path.join('.', 'templates', 'default'), os.path.join('.','templates','custom'))
+    env = Environment(loader=FileSystemLoader(os.path.join('.','templates','custom')))
     mainPageTemplate = env.get_template('main-page.html')
     title = "Welcome to Adnan's Blog"
     configurations = getConfigurations()

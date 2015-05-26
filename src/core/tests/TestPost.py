@@ -1,4 +1,5 @@
 import unittest
+import os, shutil
 from unittest.mock import MagicMock, Mock
 from datetime import date
 
@@ -18,6 +19,8 @@ class TestPostObject(unittest.TestCase):
 
 class TestPostCRUD(unittest.TestCase):
     def setUp(self):
+        if os.path.exists(os.path.join('.','templates', 'custom')):
+            shutil.rmtree(os.path.join('.','templates','custom'))
         self.postObjectToTest = Post("A sample post", """<p>The post body</p>\n<img src="someplace" alt="an image">\n<p>The ending paragraph</p>""",
                 date(2015,3,1), "a-sample-post")
         self.postObjects = []
@@ -33,6 +36,8 @@ class TestPostCRUD(unittest.TestCase):
                 "deletePost.return_value": True,
                 }
         self.mockPostDataStrategy.configure_mock(**mockProductDataStrategyAttrs)
+    def tearDown(self):
+        shutil.rmtree(os.path.join('.','templates','custom'))
 
     def testPostSavesCorrectly(self):
         self.assertTrue(PostCRUD.savePost(self.postObjectToTest, self.mockPostDataStrategy))
