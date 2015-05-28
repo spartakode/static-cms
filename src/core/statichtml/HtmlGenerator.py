@@ -51,15 +51,15 @@ def generateRss(posts):
     pageLink = configurations['RSSCONFIGURATION']['rssLink']
     pageDescription = configurations['RSSCONFIGURATION']['rssDescription']
     pageLastBuildDate= datetime.now()
-    
+
     items = []
     for post in posts:
         title = post.postTitle
         if post.postLink:
-            link = post.postLink + " &#8594;"
+            link = post.postLink
             permaLink = False
         else:
-            link = "http://adnanissadeen.com/%s.html"%(post.postUrl)
+            link = "%s/%s.html"%(pageLink, post.postUrl)
             permaLink = True
         items.append(RSS2.RSSItem(
             title = title,
@@ -80,7 +80,7 @@ def generateRss(posts):
                 items = items
             )
     siteDirectory = configurations['SITEADMIN']['fileLocation']
-    rss.write_xml(open(os.path.join(siteDirectory, "rss.xml"), "w"))
+    rss.write_xml(open(os.path.join(siteDirectory, "rss.xml"), "wb"))
 
 def getConfigurations():
     config = configparser.ConfigParser()
