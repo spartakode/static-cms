@@ -46,9 +46,10 @@ def generateHtmlForMainPage(postDataStrategy):
             disqusShortName = postConfigurations['disqusShortName'])
 
 def generateRss(posts):
-    pageTitle = "Adnan Issadeen Meets Blogging"
-    pageLink = "http://adnanissadeen.com"
-    pageDescription = "The blog from the world of adnan issadeen"
+    configurations = getConfigurations()
+    pageTitle = configurations['RSSCONFIGURATION']['rssTitle']
+    pageLink = configurations['RSSCONFIGURATION']['rssLink']
+    pageDescription = configurations['RSSCONFIGURATION']['rssDescription']
     pageLastBuildDate= datetime.now()
     
     items = []
@@ -78,9 +79,8 @@ def generateRss(posts):
 
                 items = items
             )
-    configurations = getConfigurations()
     siteDirectory = configurations['SITEADMIN']['fileLocation']
-    rss.write_xml(open(os.path.join(siteDirectory, "pyrss2gen.xml"), "w"))
+    rss.write_xml(open(os.path.join(siteDirectory, "rss.xml"), "w"))
 
 def getConfigurations():
     config = configparser.ConfigParser()
