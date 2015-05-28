@@ -83,6 +83,6 @@ def generateRss(posts):
     rss.write_xml(open(os.path.join(siteDirectory, "rss.xml"), "wb"))
 
 def getConfigurations():
-    config = configparser.ConfigParser()
+    config = configparser.RawConfigParser()
     config.read("src/config.ini")
     return config
