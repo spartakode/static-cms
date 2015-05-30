@@ -1,0 +1,23 @@
+{% extends "common.html" %}
+{% block stylesheetLink %}/static/stylesheets/style.css{% endblock %}
+{% block otherNavLinks %}<li><a href="/index.html">Home</a></li>{% endblock %}
+{% block body %}
+<article>
+    <div class="archives">
+        <ul>
+            {% for year in archivedPosts['years'] %}
+            <li class="years">
+                <h2>{{year}}</h2>
+                <ul>
+                    {% for month in archivedPosts['years'][year] %}
+                    <li class="months">
+                        <h3><a href="/archives/{{archivedPosts['years'][year][month]}}.html">{{ month }}</a></h3>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</article>
+{% endblock %}
