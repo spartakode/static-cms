@@ -17,6 +17,7 @@ class TestEditPostController(unittest.TestCase):
             "updatePost.return_value": True,
             "getMainPagePosts.return_value": [self.singlePostToReturn],
             "savePost.return_value": True,
+            "getPosts.return_value":[self.singlePostToReturn],
             "deletePost.return_value": True,
                 }
         mockPostDataStrategy.configure_mock(**mockPostDataStrategyArgs)

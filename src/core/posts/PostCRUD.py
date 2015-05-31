@@ -1,4 +1,5 @@
 from ..statichtml import HtmlGenerator
+from ..statichtml.archivegeneration import ArchiveGenerator
 import os, shutil
 import filecmp
 
@@ -7,12 +8,15 @@ def savePost(postToSave, postDataStrategy):
     if postSaveResult:
         postPageHtml = HtmlGenerator.generateHtmlForPostPage(postToSave)
         mainPageHtml = HtmlGenerator.generateHtmlForMainPage(postDataStrategy)
+        mainArchivePageHtml = ArchiveGenerator.generateMainArchivePage(postDataStrategy)
         configurations = HtmlGenerator.getConfigurations()
         siteDirectory = configurations['SITEADMIN']['fileLocation']
         if not os.path.exists(siteDirectory):
             os.mkdir(siteDirectory)
         if not os.path.exists(os.path.join(siteDirectory, 'posts')):
             os.mkdir(os.path.join(siteDirectory, 'posts'))
+        if not os.path.exists(os.path.join(siteDirectory, 'archives')):
+            os.mkdir(os.path.join(siteDirectory, 'archives'))
         if not os.path.exists(os.path.join(siteDirectory, 'static')):
             os.mkdir(os.path.join(siteDirectory, 'static'))
             shutil.copytree(os.path.join('.', 'templates', 'custom', 'styles'), os.path.join(siteDirectory, 'static', 'stylesheets'))
@@ -27,10 +31,13 @@ def savePost(postToSave, postDataStrategy):
 
         newPostFile = open(siteDirectory + '/posts/%s.html'%(postToSave.postUrl), 'wb')
         mainPageFile = open(siteDirectory + '/index.html', 'wb')
+        mainArchivePage = open(siteDirectory + '/archives/archive.html', 'wb')
         newPostFile.write(postPageHtml.encode('utf-8'))
         newPostFile.close()
         mainPageFile.write(mainPageHtml.encode('utf-8'))
         mainPageFile.close()
+        mainArchivePage.write(mainArchivePageHtml.encode('utf-8'))
+        mainArchivePage.close()
         return True
 
     else:
