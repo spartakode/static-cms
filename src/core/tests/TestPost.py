@@ -32,12 +32,14 @@ class TestPostCRUD(unittest.TestCase):
                 "getMainPagePosts.return_value": self.postObjects[0:20],
                 "getPosts.return_value": self.postObjects,
                 "getSinglePost.return_value": self.postObjectToTest,
+                "getPostsByYearAndMonth.return_value": self.postObjects[0:10],
                 "updatePost.return_value": True,
                 "deletePost.return_value": True,
                 }
         self.mockPostDataStrategy.configure_mock(**mockProductDataStrategyAttrs)
     def tearDown(self):
-        shutil.rmtree(os.path.join('.','templates','custom'))
+        if os.path.exists(os.path.join('.','templates','custom')):
+            shutil.rmtree(os.path.join('.','templates','custom'))
 
     def testPostSavesCorrectly(self):
         self.assertTrue(PostCRUD.savePost(self.postObjectToTest, self.mockPostDataStrategy))
@@ -57,6 +59,10 @@ class TestPostCRUD(unittest.TestCase):
         PostCRUD.savePost(self.postObjectToTest, self.mockPostDataStrategy)
         markDownToCompareTo = 'The post body\n\n![an image](someplace)\n\nThe ending paragraph\n\n'
         self.assertEqual(PostRetrieval.getSinglePostInMarkDown('a-sample-post', self.mockPostDataStrategy).postBody, markDownToCompareTo)
+
+    def testPostsCanBeRetrievedForAGivenMonthAndYear(self):
+        testPostResult = PostRetrieval.getPostsByYearAndMonth(2015, 1, self.mockPostDataStrategy)
+        self.assertEqual(testPostResult, self.postObjects[0:10])
 
     def testPostCanBeUpdated(self):
         PostCRUD.savePost(self.postObjectToTest, self.mockPostDataStrategy)

@@ -13,3 +13,6 @@ def getSinglePostInMarkDown(postUrl, postDataStrategy):
 
 def getPosts(postDataStrategy):
     return postDataStrategy.getPosts()
+
+def getPostsByYearAndMonth(year, month, postDataStrategy):
+    return postDataStrategy.getPostsByYearAndMonth(year, month)
