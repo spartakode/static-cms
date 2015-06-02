@@ -3,9 +3,7 @@ from datetime import date, timedelta
 
 from ...core.posts.Post import Post
 def savePost(postToSave):
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
+    conn, cur = getConnectionAndCursor()
     cur.execute("""INSERT INTO posts (postTitle,
             postBody,
             postDate,
@@ -21,60 +19,30 @@ def savePost(postToSave):
     return True
 
 def getMainPagePosts(postCount):
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
+    conn, cur = getConnectionAndCursor()
     cur.execute("SELECT * FROM posts ORDER BY ROWID DESC LIMIT %d"%(postCount))
     results = cur.fetchall()
     postsToReturn = []
-    for result in results:
-        dateParts = result['postDate'].split('-')
-        postDate = (date(int(dateParts[0]), int(dateParts[1]), int(dateParts[2])))
-        postsToReturn.append(Post(result['postTitle'],
-            result['postBody'],
-            postDate,
-            result['postUrl'],
-            result['postLink']))
-    return postsToReturn
+    return getPostsFromRows(results)
 
 def getSinglePost(postUrl):
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
+    conn, cur = getConnectionAndCursor()
     cur.execute("SELECT * FROM posts WHERE postUrl=:postUrl",{"postUrl":postUrl})
     result = cur.fetchone()
     postToReturn = None
     if result:
-        dateParts = result['postDate'].split('-')
-        postDate = (date(int(dateParts[0]), int(dateParts[1]), int(dateParts[2])))
-        postToReturn = Post(result['postTitle'],
-            result['postBody'],
-            postDate,
-            result['postUrl'],
-            result['postLink'])
+        postToReturn = convertPostRowToPostObject(result)
     return postToReturn
 
 def getPosts():
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
+    conn, cur = getConnectionAndCursor()
     cur.execute("SELECT * FROM posts ORDER BY postDate DESC")
     results = cur.fetchall()
     postsToReturn = []
-    for result in results:
-        dateParts = result['postDate'].split('-')
-        postDate = (date(int(dateParts[0]), int(dateParts[1]), int(dateParts[2])))
-        postsToReturn.append(Post(result['postTitle'],
-            result['postBody'],
-            postDate,
-            result['postUrl'],
-            result['postLink']))
-    return postsToReturn
+    return getPostsFromRows(results)
 
 def updatePost(oldPostUrl, updatedPost):
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
+    conn, cur = getConnectionAndCursor()
     cur.execute("SELECT * FROM posts WHERE postUrl=:postUrl", {"postUrl": oldPostUrl})
     oldPost = cur.fetchone()
     if oldPost:
@@ -87,18 +55,14 @@ def updatePost(oldPostUrl, updatedPost):
     return True
 
 def deletePost(urlOfPostToDelete):
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
+    conn, cur = getConnectionAndCursor()
     cur.execute("DELETE FROM posts WHERE postUrl=:postUrl", {"postUrl": urlOfPostToDelete})
     conn.commit()
     conn.close()
     return True
 
 def getPostsByYearAndMonth(year, month):
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
+    conn, cur = getConnectionAndCursor()
     startDateOfMonth = date(year, month, 1)
     if month == 12:
         startDateOfNextMonth = date(year, 1, 1)
@@ -108,13 +72,25 @@ def getPostsByYearAndMonth(year, month):
         "postDatePlusOneMonth": startDateOfNextMonth.strftime('%Y-%m-%d')})
     results = cur.fetchall()
     conn.close()
-    postsToReturn = []
-    for result in results:
-        dateParts = result['postDate'].split('-')
-        postDate = (date(int(dateParts[0]), int(dateParts[1]), int(dateParts[2])))
-        postsToReturn.append(Post(result['postTitle'],
-            result['postBody'],
+    return getPostsFromRows(results)
+
+def convertPostRowToPostObject(postRow):
+    dateParts = postRow['postDate'].split('-')
+    postDate = (date(int(dateParts[0]), int(dateParts[1]), int(dateParts[2])))
+    return Post(postRow['postTitle'],
+            postRow['postBody'],
             postDate,
-            result['postUrl'],
-            result['postLink']))
+            postRow['postUrl'],
+            postRow['postLink'])
+
+def getPostsFromRows(rows):
+    postsToReturn = []
+    for row in rows:
+        postsToReturn.append(convertPostRowToPostObject(row))
     return postsToReturn
+
+def getConnectionAndCursor():
+    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    return conn, cur
