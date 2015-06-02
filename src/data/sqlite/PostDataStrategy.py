@@ -1,5 +1,5 @@
 import sqlite3
-from datetime import date
+from datetime import date, timedelta
 
 from ...core.posts.Post import Post
 def savePost(postToSave):
@@ -94,3 +94,27 @@ def deletePost(urlOfPostToDelete):
     conn.commit()
     conn.close()
     return True
+
+def getPostsByYearAndMonth(year, month):
+    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    startDateOfMonth = date(year, month, 1)
+    if month == 12:
+        startDateOfNextMonth = date(year, 1, 1)
+    else:
+        startDateOfNextMonth = date(year, month + 1, 1)
+    cur.execute("SELECT * FROM posts WHERE postDate >= :postDate AND postDate < :postDatePlusOneMonth", {"postDate": startDateOfMonth.strftime('%Y-%m-%d'),
+        "postDatePlusOneMonth": startDateOfNextMonth.strftime('%Y-%m-%d')})
+    results = cur.fetchall()
+    conn.close()
+    postsToReturn = []
+    for result in results:
+        dateParts = result['postDate'].split('-')
+        postDate = (date(int(dateParts[0]), int(dateParts[1]), int(dateParts[2])))
+        postsToReturn.append(Post(result['postTitle'],
+            result['postBody'],
+            postDate,
+            result['postUrl'],
+            result['postLink']))
+    return postsToReturn

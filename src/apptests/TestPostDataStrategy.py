@@ -49,6 +49,19 @@ class TestPostDataStrategy(unittest.TestCase):
         PostCRUD.savePost(self.postObjecToTestB, PostDataStrategy)
         allPosts = PostRetrieval.getPosts(PostDataStrategy)
         self.assertEqual(len(allPosts), 2)
+    
+    def testPostsRetrieveByGivenYearAndMonthCorrectly(self):
+        PostCRUD.savePost(self.postObjecToTestA, PostDataStrategy)
+        PostCRUD.savePost(self.postObjecToTestB, PostDataStrategy)
+        postsToTest = PostRetrieval.getPostsByYearAndMonth(2015, 3, PostDataStrategy)
+        self.assertEqual(len(postsToTest), 2)
+        januaryPostObjectToAdd = Post("A sample post", """<p>The post body</p>\n[image 1 center]\n<p><p>The ending paragraph</p>""",
+                date(2015,1,1), "a-sample-post")
+        PostCRUD.savePost(januaryPostObjectToAdd, PostDataStrategy)
+        postsToTest = PostRetrieval.getPostsByYearAndMonth(2015, 3, PostDataStrategy)
+        self.assertEqual(len(postsToTest), 2)
+        postsToTest = PostRetrieval.getPostsByYearAndMonth(2015, 1, PostDataStrategy)
+        self.assertEqual(len(postsToTest), 1)
 
     def testPostUpdatesCorrectly(self):
         PostCRUD.savePost(self.postObjecToTestA, PostDataStrategy)
