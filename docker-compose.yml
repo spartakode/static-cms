@@ -1,0 +1,12 @@
+reverseproxy:
+  build: .
+  dockerfile: Dockerfile.nginx
+  ports:
+    - "80:80"
+  links:
+    - webapp
+
+webapp:
+  build: .
+  command: python serverstart.py
+  working_dir: /src
