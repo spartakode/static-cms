@@ -1,0 +1,7 @@
+webapp:
+  volumes:
+    - ~/website:/website
+
+reverseproxy:
+  volumes:
+    - ~/website:/usr/share/nginx/html/staticcms
