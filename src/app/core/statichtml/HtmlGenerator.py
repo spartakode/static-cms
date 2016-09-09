@@ -84,5 +84,5 @@ def generateRss(posts):
 
 def getConfigurations():
     config = configparser.RawConfigParser()
-    config.read("src/config.ini")
+    config.read("app/config.ini")
     return config

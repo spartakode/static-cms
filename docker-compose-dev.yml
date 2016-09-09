@@ -1,3 +1,9 @@
 webapp:
   volumes:
-    - .:/src
+    - ./src:/src
+    - ./output:/output
+
+reverseproxy:
+  volumes:
+    - ./output:/usr/share/nginx/html/staticcms
+    - ./nginx/:/etc/nginx/conf.d

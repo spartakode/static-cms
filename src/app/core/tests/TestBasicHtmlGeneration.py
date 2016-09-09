@@ -22,7 +22,7 @@ class TestBasicHtmlGeneration(unittest.TestCase):
         print(HtmlGenerator.getConfigurations())
         self.assertIsNotNone(HtmlGenerator.getConfigurations())
     def testPostPageHtmlGenerated(self):
-        samplePostFile = open('./src/core/tests/testdata/posts/posthtmlsample.html', 'r')
+        samplePostFile = open('./app/core/tests/testdata/posts/posthtmlsample.html', 'r')
         samplePostHtml = samplePostFile.read()
         samplePostFile.close()
         postPageHtml = HtmlGenerator.generateHtmlForPostPage(self.testPost)
@@ -30,7 +30,7 @@ class TestBasicHtmlGeneration(unittest.TestCase):
 
     def testMainPageHtmlGenerated(self):
         mainPageHtml = HtmlGenerator.generateHtmlForMainPage(self.mockProductDataStrategy)
-        mainPageResultFile = open('./src/core/tests/testdata/mainpageresult.html', 'w')
+        mainPageResultFile = open('./app/core/tests/testdata/mainpageresult.html', 'w')
         mainPageResultFile.write(mainPageHtml)
         mainPageResultFile.close()
         self.assertIsNotNone(mainPageHtml)

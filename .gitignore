@@ -63,3 +63,4 @@ target/
 src/config.ini
 src/data/sqlite/staticcms.db
 templates/custom
+output/

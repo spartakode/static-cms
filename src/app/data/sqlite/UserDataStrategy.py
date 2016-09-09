@@ -1,7 +1,7 @@
 import sqlite3
 
 def doesAUserExist():
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn = sqlite3.connect("app/data/sqlite/staticcms.db")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("SELECT count(ROWID) FROM users")
@@ -10,7 +10,7 @@ def doesAUserExist():
     return result[0] != 0
 
 def saveUser(userToSave, password):
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn = sqlite3.connect("app/data/sqlite/staticcms.db")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("INSERT INTO users (username, email, password) VALUES (?,?,?)",
@@ -20,7 +20,7 @@ def saveUser(userToSave, password):
     return True
 
 def getUserPasswordByUsername(username):
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn = sqlite3.connect("app/data/sqlite/staticcms.db")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("SELECT password FROM users WHERE username=:username",{"username":username})

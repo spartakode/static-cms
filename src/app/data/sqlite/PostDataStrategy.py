@@ -3,7 +3,7 @@ from datetime import date
 
 from ...core.posts.Post import Post
 def savePost(postToSave):
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn = sqlite3.connect("app/data/sqlite/staticcms.db")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("""INSERT INTO posts (postTitle,
@@ -21,7 +21,7 @@ def savePost(postToSave):
     return True
 
 def getMainPagePosts(postCount):
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn = sqlite3.connect("app/data/sqlite/staticcms.db")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("SELECT * FROM posts ORDER BY ROWID DESC LIMIT %d"%(postCount))
@@ -38,7 +38,7 @@ def getMainPagePosts(postCount):
     return postsToReturn
 
 def getSinglePost(postUrl):
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn = sqlite3.connect("app/data/sqlite/staticcms.db")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("SELECT * FROM posts WHERE postUrl=:postUrl",{"postUrl":postUrl})
@@ -55,7 +55,7 @@ def getSinglePost(postUrl):
     return postToReturn
 
 def getPosts():
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn = sqlite3.connect("app/data/sqlite/staticcms.db")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("SELECT * FROM posts ORDER BY postDate DESC")
@@ -72,7 +72,7 @@ def getPosts():
     return postsToReturn
 
 def updatePost(oldPostUrl, updatedPost):
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn = sqlite3.connect("app/data/sqlite/staticcms.db")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("SELECT * FROM posts WHERE postUrl=:postUrl", {"postUrl": oldPostUrl})
@@ -87,7 +87,7 @@ def updatePost(oldPostUrl, updatedPost):
     return True
 
 def deletePost(urlOfPostToDelete):
-    conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+    conn = sqlite3.connect("app/data/sqlite/staticcms.db")
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
     cur.execute("DELETE FROM posts WHERE postUrl=:postUrl", {"postUrl": urlOfPostToDelete})
