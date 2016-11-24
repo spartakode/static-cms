@@ -1,6 +1,7 @@
 {% extends "common/base.html" %}
 {% import "common/navbar.html" as nav %}
 {% block title%}View All Posts{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
 {% block body %}
 {{ nav.navbar(request.url_rule.endpoint) }}
 <div class="row">

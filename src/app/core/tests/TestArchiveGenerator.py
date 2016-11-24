@@ -25,6 +25,7 @@ class TestArchiveGenerator(unittest.TestCase):
         self.mockPostDataStrategy.configure_mock(**mockPostDataStrategyAttrs)
     def test_retrievingPostsForArchivesReturnsDictionaryCorrectly(self):
         dictionaryForTestArchive = ArchiveGenerator.getDictionaryForMainArchivePage(self.mockPostDataStrategy)
+        #this uses the posts above to figure out which years the archives exist for
         dictionaryToTestAgainst = {'years':
                 {'2015':{
                     'January':'201501',
@@ -37,5 +38,9 @@ class TestArchiveGenerator(unittest.TestCase):
         archiveGeneratorResult = ArchiveGenerator.generateMainArchivePage(self.mockPostDataStrategy) 
         self.assertIsNotNone(archiveGeneratorResult)
         print(archiveGeneratorResult)
+
+    def test_archivePageForGivenMonthAndYearGenerates(self):
+        archiveGeneratorResult = ArchiveGenerator.generateArchivePageForGivenMonthAndYear(self.mockPostStrategy)
+
 if __name__ == "__main__":
     unittest.main()

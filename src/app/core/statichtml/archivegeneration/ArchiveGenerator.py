@@ -14,8 +14,13 @@ def getDictionaryForMainArchivePage(postDataStrategy):
         yearOfPost = post.postDate.strftime('%Y')
         monthOfPost = post.postDate.strftime('%B')
         numberMonth = post.postDate.strftime('%m')
+
         if yearOfPost not in postDictionary['years']:
             postDictionary['years'][yearOfPost] = OrderedDict({})
+        #responsible for saying one or more posts exist in YEAR, MONTH 
+        # eg 2016 january.
+        # generates the link for the archive page so january 2016 would be
+        # 201601.html
         if monthOfPost not in postDictionary['years'][yearOfPost]:
             postDictionary['years'][yearOfPost][monthOfPost]= yearOfPost+numberMonth
     return postDictionary
@@ -38,3 +43,5 @@ def generateMainArchivePage(postDataStrategy):
             googleAnalyticsKey = postConfigurations['googleAnalyticsKey'],
             googleAnalyticsDomain = postConfigurations['googleAnalyticsDomain']
             )
+
+#TODO start working on generateArchivePageForGivenMonthAndYear method
