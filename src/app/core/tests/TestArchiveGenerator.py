@@ -21,6 +21,7 @@ class TestArchiveGenerator(unittest.TestCase):
         self.mockPostDataStrategy = Mock()
         mockPostDataStrategyAttrs = {
                 "getPosts.return_value": self.postList,
+                "getPostsByYearAndMonth.return_value": [self.postList[0]]
                 }
         self.mockPostDataStrategy.configure_mock(**mockPostDataStrategyAttrs)
     def test_retrievingPostsForArchivesReturnsDictionaryCorrectly(self):
@@ -37,10 +38,12 @@ class TestArchiveGenerator(unittest.TestCase):
     def test_archivePageGeneratorRunsCorrectly(self):
         archiveGeneratorResult = ArchiveGenerator.generateMainArchivePage(self.mockPostDataStrategy) 
         self.assertIsNotNone(archiveGeneratorResult)
-        print(archiveGeneratorResult)
+        #print(archiveGeneratorResult)
 
     def test_archivePageForGivenMonthAndYearGenerates(self):
-        archiveGeneratorResult = ArchiveGenerator.generateArchivePageForGivenMonthAndYear(self.mockPostStrategy)
+        archiveGeneratorResult = ArchiveGenerator.generateArchivePageForGivenMonthAndYear(1, 2015, self.mockPostDataStrategy)
+        self.assertIsNotNone(archiveGeneratorResult)
+        print(archiveGeneratorResult)
 
 if __name__ == "__main__":
     unittest.main()

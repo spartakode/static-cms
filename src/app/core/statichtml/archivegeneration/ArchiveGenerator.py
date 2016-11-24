@@ -25,6 +25,7 @@ def getDictionaryForMainArchivePage(postDataStrategy):
             postDictionary['years'][yearOfPost][monthOfPost]= yearOfPost+numberMonth
     return postDictionary
 
+
 def generateMainArchivePage(postDataStrategy):
     postDictionary = getDictionaryForMainArchivePage(postDataStrategy)
     configurations = HtmlGenerator.getConfigurations()
@@ -44,4 +45,22 @@ def generateMainArchivePage(postDataStrategy):
             googleAnalyticsDomain = postConfigurations['googleAnalyticsDomain']
             )
 
-#TODO start working on generateArchivePageForGivenMonthAndYear method
+def generateArchivePageForGivenMonthAndYear(month, year, postDataStrategy):
+    allPosts = PostRetrieval.getPostsByYearAndMonth(year, month, postDataStrategy)
+    configurations = HtmlGenerator.getConfigurations()
+    env = Environment(loader=FileSystemLoader(os.path.join('.','templates','custom')))
+    postConfigurations = configurations['POSTCONFIGURATIONS']
+    mainPageConfigurations = configurations['MAINPAGE']
+    try:
+        archivePage = env.get_template('archivepage.html')
+    except TemplateNotFound:
+        shutil.copy(os.path.join('.','templates','default','archivepage.html'),
+                os.path.join('.','templates','custom','archivepage.html'))
+        archivePage = env.get_template('archivepage.html')
+        
+    print(allPosts)
+    return archivePage.render(posts = allPosts,
+            feedlyButtonInformation = postConfigurations['feedlyButtonInformation'],
+            googleAnalyticsKey = postConfigurations['googleAnalyticsKey'],
+            googleAnalyticsDomain = postConfigurations['googleAnalyticsDomain'],
+            disqusShortName = postConfigurations['disqusShortName'])
