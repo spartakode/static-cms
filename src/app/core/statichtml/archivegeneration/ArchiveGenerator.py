@@ -46,7 +46,8 @@ def generateMainArchivePage(postDataStrategy):
             )
 
 def generateArchivePageForGivenMonthAndYear(month, year, postDataStrategy):
-    allPosts = PostRetrieval.getPostsByYearAndMonth(year, month, postDataStrategy)
+    print(month)
+    allPosts = PostRetrieval.getPostsByYearAndMonth(month, year, postDataStrategy)
     configurations = HtmlGenerator.getConfigurations()
     env = Environment(loader=FileSystemLoader(os.path.join('.','templates','custom')))
     postConfigurations = configurations['POSTCONFIGURATIONS']

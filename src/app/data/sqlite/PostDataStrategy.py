@@ -63,12 +63,13 @@ def deletePost(urlOfPostToDelete):
 
 def getPostsByYearAndMonth(year, month):
     conn, cur = getConnectionAndCursor()
+    print(month)
     startDateOfMonth = date(year, month, 1)
     if month == 12:
         startDateOfNextMonth = date(year, 1, 1)
     else:
         startDateOfNextMonth = date(year, month + 1, 1)
-    cur.execute("SELECT * FROM posts WHERE postDate >= :postDate AND postDate < :postDatePlusOneMonth", {"postDate": startDateOfMonth.strftime('%Y-%m-%d'),
+    cur.execute("SELECT * FROM posts WHERE postDate >= :postDate AND postDate < :postDatePlusOneMonth ORDER BY ROWID DESC", {"postDate": startDateOfMonth.strftime('%Y-%m-%d'),
         "postDatePlusOneMonth": startDateOfNextMonth.strftime('%Y-%m-%d')})
     results = cur.fetchall()
     conn.close()

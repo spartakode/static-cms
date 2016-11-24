@@ -9,6 +9,7 @@ def savePost(postToSave, postDataStrategy):
         postPageHtml = HtmlGenerator.generateHtmlForPostPage(postToSave)
         mainPageHtml = HtmlGenerator.generateHtmlForMainPage(postDataStrategy)
         mainArchivePageHtml = ArchiveGenerator.generateMainArchivePage(postDataStrategy)
+        archivePageHtml = ArchiveGenerator.generateArchivePageForGivenMonthAndYear(postToSave.postDate.year, postToSave.postDate.month, postDataStrategy)
         configurations = HtmlGenerator.getConfigurations()
         siteDirectory = configurations['SITEADMIN']['fileLocation']
         if not os.path.exists(siteDirectory):
@@ -32,12 +33,15 @@ def savePost(postToSave, postDataStrategy):
         newPostFile = open(siteDirectory + '/posts/%s.html'%(postToSave.postUrl), 'wb')
         mainPageFile = open(siteDirectory + '/index.html', 'wb')
         mainArchivePage = open(siteDirectory + '/archives/archive.html', 'wb')
+        archivePage = open(siteDirectory + '/archives/{yearandmonth}.html'.format(yearandmonth=postToSave.postDate.strftime('%Y%m')), 'wb')
         newPostFile.write(postPageHtml.encode('utf-8'))
         newPostFile.close()
         mainPageFile.write(mainPageHtml.encode('utf-8'))
         mainPageFile.close()
         mainArchivePage.write(mainArchivePageHtml.encode('utf-8'))
         mainArchivePage.close()
+        archivePage.write(archivePageHtml.encode('utf-8'))
+        archivePage.close()
         return True
 
     else:

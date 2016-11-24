@@ -112,34 +112,6 @@ nav ul li{
     display:inline;
     margin-right: 60px;
 }
-div.archives{
-    padding-left: 40px;
-}
-div.archives ul{
-    list-style:none;
-    padding-left: 0;
-}
-div.archives li.months{
-    padding: 0;
-    width: 50px;
-    margin-bottom: 20px;
-    margin-right: 50px;
-    display: inline;
-    float: left;
-}
-div.archives li.years{
-    margin-top: 40px;
-    clear:both;
-}
-div.archives h2{
-    font-size:25px;
-    margin-top: 30px;
-}
-div.archives h3{
-    font-size:20px;
-    margin: 0;
-    padding: 0;
-}
 div.post pre{
     font-size:14px;
     font-family:courier,monospace;

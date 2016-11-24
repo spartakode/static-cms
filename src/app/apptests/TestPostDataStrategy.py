@@ -14,14 +14,14 @@ class TestPostDataStrategy(unittest.TestCase):
                 date(2015,3,1), "a-sample-post")
         self.postObjecToTestB = Post("A sample poste", """<p>The post body</p>\n[image 1 center]\n<p><p>The ending paragraph</p>""",
                 date(2015,3,1), "a-sample-poste")
-        conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+        conn = sqlite3.connect("app/data/sqlite/staticcms.db")
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
         cur.execute("DELETE FROM posts")
         conn.commit()
         conn.close()
     def tearDown(self):
-        conn = sqlite3.connect("src/data/sqlite/staticcms.db")
+        conn = sqlite3.connect("app/data/sqlite/staticcms.db")
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
         cur.execute("DELETE FROM posts")

@@ -8,5 +8,5 @@ reverseproxy:
 
 webapp:
   build: .
-  command: python serverstart.py
+  command: python serverstart.py --debug
   working_dir: /src
