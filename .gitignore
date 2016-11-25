@@ -60,7 +60,7 @@ target/
 *.swp
 
 #static-cms
-src/config.ini
-src/data/sqlite/staticcms.db
-templates/custom
+src/app/config.ini
+src/templates/custom
 output/
+/src/app/data/sqlite/staticcms.db
